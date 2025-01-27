@@ -8,7 +8,7 @@ struct node {
 };
 #define min(x, y) ((x) < (y) ? (x) : (y))
 //#define DEBUG
-#define TEST_CASE_1
+//#define TEST_CASE_1
 
 #ifdef TEST_CASE_1
 const int N = 5;
@@ -24,7 +24,12 @@ struct node a[N+1] = {{0, 0, 0, 0},
 
 int test_m[Q+1] = {0,55,50,45,40,35,30,25,20,15,10,5};
 
-#else 
+#else
+int N;
+int Q;
+struct node *a;
+int *test_m;
+
 #endif
 
 int findMiddle(int a, int b, int c) {
@@ -113,6 +118,19 @@ int calculate_min_cost(int m) {
 
 
 int main() {
+
+	std::cin >> N;
+	a = new node[N+1];
+	for (int j = 1; j <= N; j ++){
+		std::cin >> a[j].value;
+		std::cin >> a[j].cost;
+	}
+	std::cin >> Q;
+	test_m = new int[Q+1];
+	for (int j = 1; j <= Q; j ++){
+		std::cin >> test_m[j];
+	}
+
 	for (int j = 1; j <= Q; j ++){
 		std::cout << calculate_min_cost(test_m[j]) << std::endl;
 	}
