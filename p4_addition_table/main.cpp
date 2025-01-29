@@ -1,7 +1,7 @@
 #include <iostream>
 
-#define DEBUG
-#define TEST_CASE_3
+//#define DEBUG
+//#define TEST_CASE_3
 
 #ifdef TEST_CASE_1
 const int N = 1;
@@ -28,6 +28,9 @@ int input_table[N][N] = {
   {4,12,8,5,6,10}
 } ;
 
+#else
+int N;
+int **input_table;
 
 #endif
 
@@ -82,7 +85,19 @@ void PrintTable(void) {
 }
 
 int main() {
-  for (int i = 2; i <= N*2; i++) {
+  std::cin >> N;
+  input_table = new int*[N];
+  for(int i = 0; i < N; ++i) {
+    input_table[i] = new int[N];
+  }
+
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+      std::cin >> input_table[i][j];
+    }
+  }
+
+  for (int i = 2; i < N*2; i++) {
     int real_amount = real_number_amount(i);
     #ifdef DEBUG
     std::cout << i << " real amount should be  " << real_amount << std::endl;
@@ -104,6 +119,42 @@ int main() {
       #endif
     }
   }
+
+  //step2
+  bool no_change[2*N] = {true};
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+      if (input_table[i][j] > N+1 && no_change[input_table[i][j]]) {
+        no_change[input_table[i][j]] = false;
+        swap(2*N + 2 - input_table[i][j], input_table[i][j]);
+      }
+    }
+  }
+
+  //step 3:
+  for (int num = 2*N; num > N; num --) {
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < N; j++) {
+        if (input_table[i][j] == num) {
+          //row
+          for (int k = 0; k < N; k++) {
+            if (k == j) continue;
+            if (input_table[i][k] <= (input_table[i][j] - N)) {
+              swap(2*N + 2 - input_table[i][k], input_table[i][k]);
+            }
+          }
+          //columm
+          for (int k = 0; k < N; k++) {
+            if (k == i) continue;
+            if (input_table[k][j] <= (input_table[i][j] - N)) {
+              swap(2*N + 2 - input_table[k][j], input_table[k][j]);
+            }
+          }
+        }
+      }
+    }
+  }
+  PrintTable();
 
   return 0;
 }
