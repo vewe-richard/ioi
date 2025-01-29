@@ -2,13 +2,14 @@
 
 //#define DEBUG
 //#define TEST_CASE_3
-
+#define DATA_FROM_INPUT
 #ifdef TEST_CASE_1
 const int N = 1;
 int input_table[N][N] = {
   2
 };
 
+#undef DATA_FROM_INPUT
 #elifdef  TEST_CASE_2
 const int N = 3;
 int input_table[N][N] = {
@@ -16,7 +17,7 @@ int input_table[N][N] = {
   {5,2,3},
   {6,3,5}
 } ;
-
+#undef DATA_FROM_INPUT
 #elifdef  TEST_CASE_3
 const int N = 6;
 int input_table[N][N] = {
@@ -27,7 +28,7 @@ int input_table[N][N] = {
   {6,8,7,9,3,5},
   {4,12,8,5,6,10}
 } ;
-
+#undef DATA_FROM_INPUT
 #else
 int N;
 int **input_table;
@@ -85,6 +86,7 @@ void PrintTable(void) {
 }
 
 int main() {
+#ifdef DATA_FROM_INPUT
   std::cin >> N;
   input_table = new int*[N];
   for(int i = 0; i < N; ++i) {
@@ -96,6 +98,7 @@ int main() {
       std::cin >> input_table[i][j];
     }
   }
+#endif
 
   for (int i = 2; i < N*2; i++) {
     int real_amount = real_number_amount(i);
